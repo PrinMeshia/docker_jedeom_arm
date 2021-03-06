@@ -621,6 +621,22 @@ $('.div_displayObject').off('resize', '.graph-widget').on('resize', '.graph-widg
   }
 })
 
+$pageContainer.off('click','.eqLogic-widget .history').on('click','.eqLogic-widget .history', function(event) {
+  if (planEditOption.state == true) return false
+  event.stopImmediatePropagation()
+  event.stopPropagation()
+  if (event.ctrlKey || event.metaKey) {
+    var cmdIds = []
+    $(this).closest('.eqLogic.eqLogic-widget').find('.history[data-cmd_id]').each(function () {
+      cmdIds.push($(this).data('cmd_id'))
+    })
+    cmdIds = cmdIds.join('-')
+  } else {
+    var cmdIds = $(this).closest('.history[data-cmd_id]').data('cmd_id')
+  }
+  $('#md_modal2').dialog({title: "{{Historique}}"}).load('index.php?v=d&modal=cmd.history&id=' + cmdIds).dialog('open')
+})
+
 /***********************************************************************************/
 function createNewDesign() {
   bootbox.prompt("{{Nom du design ?}}", function(result) {
@@ -652,11 +668,10 @@ function fullScreen(_mode) {
     $('#div_mainContainer').css({
       'margin-top' : '-50px',
       'overflow-y' : 'inherit',
-      'overflow-x' : 'inherit',
-      'height' : '100vh'
+      'overflow-x' : 'inherit'
     })
     $('#wrap').css('margin-bottom', '0px')
-    $('.div_backgroundPlan').attr('style', 'height: 100vh !important')
+    $('.div_backgroundPlan').height('auto')
     $('.backgroundforJeedom').css('margin-top', '-50px').height('100%')
 
   } else {
@@ -1259,12 +1274,9 @@ function displayObject(_plan, _html, _noRender) {
   initEditOption(planEditOption.state)
 }
 
+//back to mobile home with three fingers on mobile:
 $(function() {
-  jeedomUI.setEqSignals()
-  jeedomUI.setHistoryModalHandler()
-
-  //back to mobile home with three fingers on mobile:
-  if (user_isAdmin == 1 && $('body').attr('data-device') == 'mobile') {
+  if ($('body').attr('data-device') == 'mobile') {
     $('body').on('touchstart', function(event) {
       if (event.touches.length == 3) {
         $('body').off('touchstart')

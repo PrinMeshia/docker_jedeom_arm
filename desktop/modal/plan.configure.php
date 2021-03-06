@@ -103,12 +103,6 @@ sendVarToJS('id', $plan->getId());
         </div>
       </div>
     </div>
-    <div class="form-group link_type link_image">
-      <div class="col-lg-4"></div>
-      <div class="col-lg-4 planImg">
-        <img src="" width="240px" height="auto" />
-      </div>
-    </div>
     <div class="form-group link_type link_image display_mode display_mode_camera" style="display:none;">
       <label class="col-lg-4 control-label">{{Autoriser la fenêtre de zoom}}</label>
       <div class="col-lg-2">
@@ -550,17 +544,35 @@ sendVarToJS('id', $plan->getId());
     url: 'core/ajax/plan.ajax.php?action=uploadImagePlan&id=' + id,
     dataType: 'json',
     done: function(e, data) {
-      if (data.result.state != 'ok') {
-        $('#div_alertPlanConfigure').showAlert({message: data.result.result, level: 'danger'})
+      if (plan.plan.state != 'ok') {
+        $('#div_alertPlanConfigure').showAlert({message: plan.plan.result, level: 'danger'})
         return
       }
-      if (isset(data.result.result.filepath)) {
-        var filePath = data.result.result.filepath
-        filePath = '/data/plan/' + filePath.split('/data/plan/')[1]
-        $('.planImg img').attr('src',filePath).show()
-      } else {
-        $('.planImg img').hide()
-      }
+    }
+  })
+
+  $('#fd_planConfigure').on('change','.planAttr[data-l1key=display][data-l2key=background-transparent]', function() {
+    if ($(this).value() == 1) {
+      $('.planAttr[data-l1key=display][data-l2key=background-defaut]').value(0)
+    }
+  })
+
+  $('#fd_planConfigure').on('change','.planAttr[data-l1key=css][data-l2key=background-color]', function() {
+    if ($(this).value() != '#000000') {
+      $('.planAttr[data-l1key=display][data-l2key=background-defaut]').value(0)
+    }
+  })
+
+  $('#fd_planConfigure').on('change','.planAttr[data-l1key=css][data-l2key=color]', function() {
+    if ($(this).value() != '#000000') {
+      $('.planAttr[data-l1key=display][data-l2key=color-defaut]').value(0)
+    }
+  })
+
+  $('#fd_planConfigure').on('change','.planAttr[data-l1key=display][data-l2key=background-defaut]', function() {
+    if ($(this).value() == 1) {
+      $('.planAttr[data-l1key=display][data-l2key=background-transparent]').value(0)
+      $('.planAttr[data-l1key=css][data-l2key=background-color]').value('#000000')
     }
   })
 
@@ -580,7 +592,6 @@ sendVarToJS('id', $plan->getId());
     save()
   })
 
-  //load and set settings (call before any change event set):
   if (isset(id) && id != '') {
     jeedom.plan.byId({
       id : id,
@@ -606,9 +617,6 @@ sendVarToJS('id', $plan->getId());
             addActionPlanConfigure(plan.plan.configuration.action_other[i],'other')
           }
         }
-        if (plan.plan.link_type == 'image') {
-          $('#fd_planConfigure .planImg img').attr('src', plan.plan.display.path).show()
-        }
         if (plan.plan.link_type == 'text') {
           var code = $('.planAttr[data-l1key=display][data-l2key=text]')
           if (code.attr('id') == undefined) {
@@ -623,38 +631,6 @@ sendVarToJS('id', $plan->getId());
             }, 1)
           }
         }
-        setPlanUI_Events()
-      }
-    })
-  }
-
-  function setPlanUI_Events() {
-    //background : not default if transparent:
-    $('#fd_planConfigure').on('change','.planAttr[data-l1key=display][data-l2key=background-transparent]', function() {
-      if ($(this).value() == 1) {
-        $('.planAttr[data-l1key=display][data-l2key=background-defaut]').prop('checked', false)
-      }
-    })
-
-    //background: not default/transparent if colored:
-    $('#fd_planConfigure').on('change','.planAttr[data-l1key=css][data-l2key=background-color]', function() {
-      if ($(this).value() != '#000000') {
-        $('.planAttr[data-l1key=display][data-l2key=background-defaut]').prop('checked', false)
-        $('.planAttr[data-l1key=display][data-l2key=background-transparent]').prop('checked', false)
-      }
-    })
-
-    //background: not transparent if default
-    $('#fd_planConfigure').on('change','.planAttr[data-l1key=display][data-l2key=background-defaut]', function() {
-      if ($(this).value() == 1) {
-        $('.planAttr[data-l1key=display][data-l2key=background-transparent]').prop('checked', false)
-      }
-    })
-
-    //text: not default if colored:
-    $('#fd_planConfigure').on('change','.planAttr[data-l1key=css][data-l2key=color]', function() {
-      if ($(this).value() != '#000000') {
-        $('.planAttr[data-l1key=display][data-l2key=color-defaut]').prop('checked', false)
       }
     })
   }

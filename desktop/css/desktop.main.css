@@ -208,9 +208,8 @@ Theme Core 2021 @Jeedom
   .dropdown > a:hover {
     background-color: rgb(var(--defaultBkg-color)) !important;
   }
-  .open > .dropdown-menu {
-    z-index: 990 !important;
-    scrollbar-width: thin;
+  .dropdown-menu {
+    z-index: 10 !important;
   }
   .dropdown-menu > li > a {
     color: var(--link-color)
@@ -892,10 +891,6 @@ Theme Core 2021 @Jeedom
   }
 
 /* ____________________OVERVIEW */
-  #objectOverviewContainer .objectPreview,
-  #dashOverviewPrev .objectPreview {
-    background-position: center !important;
-  }
   #objectOverviewContainer {
     text-align: center !important;
     margin:15px;
@@ -940,7 +935,7 @@ Theme Core 2021 @Jeedom
   .objectPreview > .topPreview > .name {
     font-size: 16px;
     font-weight: 300;
-    max-width: calc(100% - 95px);
+    max-width: 195px;
     width: -webkit-fill-available;
     max-height: 30px !important;
     overflow: hidden;
@@ -980,6 +975,7 @@ Theme Core 2021 @Jeedom
   .objectPreview .objectSummaryParent,
   .objectPreview .objectSummaryParent i {
     font-size: 16px !important;
+    color: var(--link-color) !important;
   }
   .objectPreview .topPreview .objectSummaryParent {
     position: absolute;
@@ -1089,19 +1085,11 @@ Theme Core 2021 @Jeedom
   [data-page="dashboard"] #dashOverviewPrev.dashboard .li_object span {
     cursor: pointer !important;
   }
-  [data-page="dashboard"] #dashOverviewPrev.dashboard .li_object > span {
-    margin-left: 30px;
-  }
-
   [data-page="dashboard"] #dashOverviewPrev .objectSummaryglobal {
     padding-left: 25px;
   }
   [data-page="dashboard"] #dashOverviewPrev.dashboard .li_object:hover {
     background-color: var(--form-bg-color);
-  }
-
-  [data-page="dashboard"] #dashOverviewPrev .topPreview .name {
-    max-width: 100%;
   }
 
   [data-page="dashboard"] #div_displayObject {
@@ -1125,9 +1113,6 @@ Theme Core 2021 @Jeedom
 
   [data-type="plugin"] #div_pageContainer > div.eqLogic {
     margin-top: 5px;
-  }
-  [data-type="plugin"] .eqLogicThumbnailDisplay {
-    overflow: unset !important;
   }
   select.selectCmd {
     border: 0;
@@ -2050,7 +2035,7 @@ Theme Core 2021 @Jeedom
     right: 10px;
     padding: 5px;
     height: 40px !important;
-    z-index: 15;
+    z-index: 10;
     background: rgba(var(--panel-bg-color), var(--opacity));
   }
 
@@ -3734,14 +3719,6 @@ Theme Core 2021 @Jeedom
     -ms-user-select: none;
     user-select: none;
   }
-  body[data-page="plan"] #div_mainContainer {
-    overflow: hidden !important;
-    height: unset !important;
-  }
-  .div_backgroundPlan {
-    height: calc(100vh - 50px) !important;
-    overflow: auto !important;
-  }
 
   .div_backgroundPlan #div_grid {
     position: absolute;
@@ -3760,16 +3737,6 @@ Theme Core 2021 @Jeedom
   .div_backgroundPlan .text-widget {
     background-color: rgba(var(--eq-bg-color), var(--opacity)) !important;
     color: var(--txt-color) !important;
-  }
-
-  body[data-device="mobile"][data-page="plan"] {
-    padding: 0;
-  }
-  body[data-device="mobile"][data-page="plan"] #div_mainContainer {
-    margin: 0 !important;
-  }
-  body[data-device="mobile"][data-page="plan"] div.div_backgroundPlan {
-    height: 100% !important;
   }
 
   /* view data table */
@@ -4177,7 +4144,6 @@ Theme Core 2021 @Jeedom
   }
   #pre_globallog,
   #pre_scenariolog,
-  #pre_eventlog,
   #pre_commandResult,
   #div_commandResult {
     font-family: "CamingoCode", monospace;

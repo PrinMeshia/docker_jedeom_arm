@@ -48,59 +48,50 @@ $(function() {
 $('#in_searchConfig').keyup(function() {
   var search = $(this).value()
 
-  //place back found els with random numbered span to place them back to right place. Avoid cloning els for better saving.
+  //replace found els with random numbered span to place them back to right place. Avoid cloning els for better saving.
   $('span[searchId]').each(function() {
     el = $('#searchResult [searchId="' + $(this).attr('searchId') + '"]')
     el.removeAttr('searchId')
     $(this).replaceWith(el)
   })
 
-  $.clearDivContent('searchResult')
+  $('#searchResult').empty()
   if (search == '') {
-    $('.nav-tabs.nav-primary, .tab-content').show()
+    $('.nav-tabs.nav-primary').show()
+    $('.tab-content').show()
     initPickers()
     updateTooltips()
     return
   }
   if (search.length < 3) return
-  $('.nav-tabs.nav-primary, .tab-content').hide()
-
   search = normTextLower(search)
+
+  $('.nav-tabs.nav-primary').hide()
+  $('.tab-content').hide()
+
+  var prevTab = ''
   var text, tooltip, tabId, tabName, el, searchId
-  var tabsArr = []
-  var thisTabLink
   $('.form-group > .control-label').each(function() {
-    thisTabLink = false
     text = normTextLower($(this).text())
     tooltip = $(this).find('sup i').attr('tooltip')
-    if (tooltip) {
-      tooltip = normTextLower(tooltip)
-    } else {
-      tooltip = ''
-    }
+    if (tooltip) { tooltip = normTextLower(tooltip) } else { tooltip = '' }
     if (text.indexOf(search) >= 0 || tooltip.indexOf(search) >= 0) {
       //get element tab to create link to:
       tabId = $(this).closest('div[role="tabpanel"]').attr('id')
-      if (!tabsArr.includes(tabId)) {
-        tabName = $('ul.nav-primary a[href="#' + tabId + '"]').html()
-        if (tabName != undefined) {
-          $('#searchResult').append('<div><a role="searchTabLink" href="#'+tabId+'">'+tabName+'</a></div>')
-          tabsArr.push(tabId)
-        }
+      tabName = $('ul.nav-primary a[href="#' + tabId + '"]').html()
+      if (tabName != undefined && prevTab != tabId) {
+        $('#searchResult').append('<a role="searchTabLink" href="#'+tabId+'">'+tabName+'</a>')
       }
-      thisTabLink = $('#searchResult a[role="searchTabLink"][href="#'+tabId+'"]').parent()
+      prevTab = tabId
 
       el = $(this).closest('.form-group')
-      //Is this form-group not in result yet:
-      if (el.attr('searchId') == undefined) {
-        searchId = Math.random()
-        el.attr('searchId', searchId)
-        el.replaceWith('<span searchId='+ searchId + '></span>')
-        el.find('.tooltipstered').each(function() {
-          $(this).removeClass('tooltipstered')
-        })
-        thisTabLink.append(el)
-      }
+      searchId = Math.random()
+      el.attr('searchId', searchId)
+      el.replaceWith('<span searchId='+ searchId + '></span>')
+      el.find('.tooltipstered').each(function() {
+        $(this).removeClass('tooltipstered')
+      })
+      $('#searchResult').append(el)
     }
   })
   initPickers()

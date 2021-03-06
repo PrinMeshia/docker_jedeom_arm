@@ -146,14 +146,6 @@ class plan {
 	}
 
 	public function remove() {
-		$link_type = $this->getLink_type();
-		if ($this->getLink_type() == 'image') {
-			$imgPath = $this->getDisplay('path', '');
-			if ($imgPath != '') {
-				@unlink(str_replace('data/plan/', __DIR__ . '/../../data/plan/', $imgPath));
-				@rmdir(__DIR__ . '/../../data/plan/plan_'.$this->getId());
-			}
-		}
 		DB::remove($this);
 	}
 
@@ -234,7 +226,7 @@ class plan {
 			if ($this->getDisplay('color-defaut', 1) == 1) {
 				$html .= '<a>';
 			} else {
-				$html .= '<a style="color:' . $this->getCss('color', '') . '!important;">';
+				$html .= '<a style="color:' . $this->getCss('color', '') . '!important">';
 			}
 			$html .= $this->getDisplay('icon') . ' ' . $this->getDisplay('name');
 			$html .= '</a>';
@@ -246,11 +238,7 @@ class plan {
 		} else if ($linkType == 'view') {
 			$link = 'index.php?p=view&view_id=' . $this->getLink_id();
 			$html = '<span href="' . $link . '" class="cursor view-link-widget" data-id="'.$this->getId().'" data-link_id="' . $this->getLink_id() . '" >';
-			if ($this->getDisplay('color-defaut', 1) == 1) {
-				$html .= '<a href="' . $link . '" class="noOnePageLoad">';
-			} else {
-				$html .= '<a href="' . $link . '" class="noOnePageLoad" style="color:' . $this->getCss('color', '') . '!important;">';
-			}
+			$html .= '<a href="' . $link . '" class="noOnePageLoad" style="color:' . $this->getCss('color', '') . '">';
 			$html .= $this->getDisplay('icon') . ' ' . $this->getDisplay('name');
 			$html .= '</a>';
 			$html .= '</span>';

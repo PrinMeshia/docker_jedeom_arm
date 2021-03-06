@@ -1420,9 +1420,6 @@ a.ui-table-columntoggle-btn {
 }
 
 /* __________________________________________________________________________________________________________PREVIEW */
-#objectOverviewContainer .objectPreview {
-  background-position: center !important;
-}
 .objectPreview {
   position: relative;
   width: 320px;
@@ -1460,7 +1457,7 @@ a.ui-table-columntoggle-btn {
 .objectPreview > .topPreview > .name {
   font-size: 16px;
   font-weight: 300;
-  max-width: calc(100% - 98px);
+  max-width: 240px;
   max-height: 30px !important;
   overflow: hidden;
   display: inline-block;
@@ -1487,7 +1484,7 @@ a.ui-table-columntoggle-btn {
 .objectPreview .objectSummaryParent,
 .objectPreview .objectSummaryParent i {
   font-size: 14px !important;
-  color: var(--link-color);
+  color: var(--link-color) !important;
 }
 .objectPreview .topPreview .objectSummaryParent {
   position: absolute;

@@ -110,7 +110,7 @@ $('body').on('cmd::update',function(_event,_options){
   }
 })
 
-window.addEventListener('resize', function(){
+window.addEventListener( 'resize', function(){
   if(getUrlVars('fullscreen') == '1'){
     $('#div_colPlan3d').height($('html').height());
   }else{
@@ -118,11 +118,9 @@ window.addEventListener('resize', function(){
   }
   SCREEN_WIDTH = $('#div_display3d').width();
   SCREEN_HEIGHT = $('#div_display3d').height();
-  try {
-    camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-    camera.updateProjectionMatrix();
-    renderer.setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
-  } catch(error) {}
+  camera.aspect =SCREEN_WIDTH / SCREEN_HEIGHT;
+  camera.updateProjectionMatrix();
+  renderer.setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
 }, false );
 
 window.addEventListener('dblclick', function(){
